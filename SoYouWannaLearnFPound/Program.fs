@@ -9,8 +9,10 @@ open Microsoft.FSharp.Reflection
 
 let mutable total = 42
 
-let mutable money = 10
+let mutable money = 9
+let mutable bet = 1
 let mutable playAgain = true
+let mutable doubleDown = false
 let numberGenerator = new System.Random()
 
 while (playAgain && money > 0) do
@@ -37,24 +39,38 @@ while (playAgain && money > 0) do
     let nextValue = numberGenerator.Next(1, 10)
     let evalValue = (nextValue - currentValue) * playerGuess
     printfn "The new number is %d" nextValue
+    
     if playerGuess <> 2 then
         if evalValue > 0 || evalValue = (nextValue - currentValue) then
-            money <- money + 1
-            printfn "You win! Your current credit is %d." money
-        
+            printfn "You win! Your current winnings are %d." bet
+            printfn "Credits: %d" money
+            printfn "Use winnings as bet in next round (y/n)?"
+            let mutable input = Console.ReadLine()
+            while againValid input |> not do
+                printfn "Invalid selection. Would you like to use your winnings as the bet in the next round (y/n)?"
+                input <- Console.ReadLine()
+            doubleDown <- input |> againParse
+            if doubleDown then
+                bet <- bet + bet
+
+            else
+                money <- money + bet
+                bet <- 1
+                printfn "Current credits: %d" money
+                
         else
             money <- money - 1
             printfn "You lose! Your current credit is %d." money
-            
-        if money > 0 then
-            printfn "Would you like to play again (y/n)?"
-            let mutable input = Console.ReadLine()
-            while againValid input |> not do
-                printfn "Invalid selection. Would you like to play again (y/n)?"
-                input <- Console.ReadLine()
-            playAgain <- againParse input
-        else
-            playAgain <- false   
+        if doubleDown |> not  then
+            if money > 0 then
+                printfn "Would you like to play again (y/n)?"
+                let mutable input = Console.ReadLine()
+                while againValid input |> not do
+                    printfn "Invalid selection. Would you like to play again (y/n)?"
+                    input <- Console.ReadLine()
+                playAgain <- againParse input
+            else
+                playAgain <- false   
     else
         printfn "Invalid selection. Please enter h ,  l, or s"
 
