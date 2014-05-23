@@ -23,7 +23,7 @@ while (playAgain && money > 0) do
     let parseYN x =
         match x with
             |"y" | "Y" -> true
-            | "n" | "N" -> false
+            |"n" | "N" -> false
 
     let againValid x =
         match x with
@@ -32,17 +32,24 @@ while (playAgain && money > 0) do
 
     let guessParse x =
         match x with
-        | "h" -> 1
-        | "l" -> -1
-        | "s" -> 0
+        | "h" | "H" -> 1
+        | "l" | "L" -> -1
+        | "s" | "S" -> 0
         | a -> 2
 
-    let getValidYN message =
+    let getValidYN errorMessage =
         let mutable input = Console.ReadLine()
         while againValid input |> not do
-            printfn message
+            printfn errorMessage
             input <- Console.ReadLine()
         input |> parseYN
+
+    let getValidGuess errorMessage =
+        let mutable input = Console.ReadLine()
+        while guessParse input = 2 do
+            printfn errorMessage
+            input <- Console.ReadLine()
+        input |> guessParse
 
     doubleDown <- false
     playAgain <- false
@@ -50,40 +57,36 @@ while (playAgain && money > 0) do
     printfn "Current range is between 1 and %d" currentRange
     printfn "Current Value is %d. Will the next number be (h)igher, (l)ower, or the (s)ame?" currentValue
 
-    let playerGuess = Console.ReadLine() |> guessParse
+    let playerGuess = getValidGuess "Invalid selection. Please enter h ,  l, or s"
     let nextValue = numberGenerator.Next(1, currentRange)
     let evalValue = (nextValue - currentValue) * playerGuess
     printfn "The new number is %d" nextValue
     
-    if playerGuess <> 2 then
-        if evalValue > 0 || evalValue = (nextValue - currentValue) then
-            printfn "You win! Your current winnings are %d." bet
-            printfn "Credits: %d" money
-            printfn "Use winnings as bet in next round (y/n)?"
-            let test = getValidYN "brohaha"
-            doubleDown <- getValidYN "Invalid selection. Would you like to use your winnings as the bet in the next round (y/n)?"
-            if doubleDown then
-                bet <- bet + bet
-                playAgain <- true
-                if currentRange > minRange then
-                    currentRange <- currentRange - 1
-            else
-                money <- money + bet
-                bet <- 1
-                currentRange <- maxRange
-                printfn "Current credits: %d" money
-                
+    if evalValue > 0 || evalValue = (nextValue - currentValue) then
+        printfn "You win! Your current winnings are %d." bet
+        printfn "Credits: %d" money
+        printfn "Use winnings as bet in next round (y/n)?"
+        doubleDown <- getValidYN "Invalid selection. Would you like to use your winnings as the bet in the next round (y/n)?"
+        if doubleDown then
+            bet <- bet + bet
+            playAgain <- true
+            if currentRange > minRange then
+                currentRange <- currentRange - 1
         else
-            money <- money - 1
-            printfn "You lose! Your current credit is %d." money
-        if doubleDown |> not  then
-            if money > 0 then
-                printfn "Would you like to play again (y/n)?"
-                playAgain <- getValidYN "Invalid selection. Would you like to play again (y/n)?"
-            else
-                playAgain <- false   
+            money <- money + bet
+            bet <- 1
+            currentRange <- maxRange
+            printfn "Current credits: %d" money          
     else
-        printfn "Invalid selection. Please enter h ,  l, or s"
+        money <- money - 1
+        printfn "You lose! Your current credit is %d." money
+    if doubleDown |> not  then
+        if money > 0 then
+            printfn "Would you like to play again (y/n)?"
+            playAgain <- getValidYN "Invalid selection. Would you like to play again (y/n)?"
+        else
+            playAgain <- false   
+    printfn "Invalid selection. Please enter h ,  l, or s"
 
 printfn "Thanks for playing."    
 printfn "Press any key to continue..."
