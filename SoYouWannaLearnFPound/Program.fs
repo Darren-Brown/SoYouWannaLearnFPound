@@ -7,8 +7,6 @@ open System.Text
 open System.Text.RegularExpressions
 open Microsoft.FSharp.Reflection
 
-let mutable total = 42
-
 let mutable money = 10
 let mutable bet = 1
 let mutable playAgain = true
@@ -22,7 +20,7 @@ let numberGenerator = new System.Random()
 printfn "Welcome to higher/lower!"
 
 while (playAgain && money > 0) do
-    let againParse x =
+    let parseYN x =
         match x with
             |"y" | "Y" -> true
             | "n" | "N" -> false
@@ -32,13 +30,19 @@ while (playAgain && money > 0) do
           |"y" | "Y" | "n" | "N" -> true
           | a -> false 
 
-
     let guessParse x =
         match x with
         | "h" -> 1
         | "l" -> -1
         | "s" -> 0
         | a -> 2
+
+    let getValidYN message =
+        let mutable input = Console.ReadLine()
+        while againValid input |> not do
+            printfn message
+            input <- Console.ReadLine()
+        input |> parseYN
 
     doubleDown <- false
     playAgain <- false
@@ -56,11 +60,8 @@ while (playAgain && money > 0) do
             printfn "You win! Your current winnings are %d." bet
             printfn "Credits: %d" money
             printfn "Use winnings as bet in next round (y/n)?"
-            let mutable input = Console.ReadLine()
-            while againValid input |> not do
-                printfn "Invalid selection. Would you like to use your winnings as the bet in the next round (y/n)?"
-                input <- Console.ReadLine()
-            doubleDown <- input |> againParse
+            let test = getValidYN "brohaha"
+            doubleDown <- getValidYN "Invalid selection. Would you like to use your winnings as the bet in the next round (y/n)?"
             if doubleDown then
                 bet <- bet + bet
                 playAgain <- true
@@ -78,11 +79,7 @@ while (playAgain && money > 0) do
         if doubleDown |> not  then
             if money > 0 then
                 printfn "Would you like to play again (y/n)?"
-                let mutable input = Console.ReadLine()
-                while againValid input |> not do
-                    printfn "Invalid selection. Would you like to play again (y/n)?"
-                    input <- Console.ReadLine()
-                playAgain <- againParse input
+                playAgain <- getValidYN "Invalid selection. Would you like to play again (y/n)?"
             else
                 playAgain <- false   
     else
