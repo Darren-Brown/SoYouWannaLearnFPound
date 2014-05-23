@@ -56,7 +56,7 @@ while (playAgain && money > 0) do
         else
             playAgain <- false   
     else
-        printfn "Invalid selection. Please enter h,  l, or s"
+        printfn "Invalid selection. Please enter h ,  l, or s"
 
 printfn "Thanks for playing."    
 printfn "Press any key to continue..."
