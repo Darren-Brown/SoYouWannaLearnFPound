@@ -1,0 +1,9 @@
+c:\users\darren.brown\documents\visual studio 2012\Projects\SoYouWannaLearnFPound\SoYouWannaLearnFPound\bin\Debug\SoYouWannaLearnFPound.exe.config
+c:\users\darren.brown\documents\visual studio 2012\Projects\SoYouWannaLearnFPound\SoYouWannaLearnFPound\bin\Debug\SoYouWannaLearnFPound.XML
+c:\users\darren.brown\documents\visual studio 2012\Projects\SoYouWannaLearnFPound\SoYouWannaLearnFPound\bin\Debug\SoYouWannaLearnFPound.exe
+c:\users\darren.brown\documents\visual studio 2012\Projects\SoYouWannaLearnFPound\SoYouWannaLearnFPound\bin\Debug\SoYouWannaLearnFPound.pdb
+c:\users\darren.brown\documents\visual studio 2012\Projects\SoYouWannaLearnFPound\SoYouWannaLearnFPound\bin\Debug\FSharp.Core.dll
+c:\users\darren.brown\documents\visual studio 2012\Projects\SoYouWannaLearnFPound\SoYouWannaLearnFPound\bin\Debug\FSharp.Core.xml
+c:\users\darren.brown\documents\visual studio 2012\Projects\SoYouWannaLearnFPound\SoYouWannaLearnFPound\obj\Debug\SoYouWannaLearnFPound.fsprojResolveAssemblyReference.cache
+c:\users\darren.brown\documents\visual studio 2012\Projects\SoYouWannaLearnFPound\SoYouWannaLearnFPound\obj\Debug\SoYouWannaLearnFPound.exe
+c:\users\darren.brown\documents\visual studio 2012\Projects\SoYouWannaLearnFPound\SoYouWannaLearnFPound\obj\Debug\SoYouWannaLearnFPound.pdb
