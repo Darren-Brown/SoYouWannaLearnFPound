@@ -9,11 +9,17 @@ open Microsoft.FSharp.Reflection
 
 let mutable total = 42
 
-let mutable money = 9
+let mutable money = 10
 let mutable bet = 1
 let mutable playAgain = true
 let mutable doubleDown = false
+
+let maxRange = 10
+let minRange = 3
+let mutable currentRange = maxRange
 let numberGenerator = new System.Random()
+
+printfn "Welcome to higher/lower!"
 
 while (playAgain && money > 0) do
     let againParse x =
@@ -26,8 +32,7 @@ while (playAgain && money > 0) do
           |"y" | "Y" | "n" | "N" -> true
           | a -> false 
 
-    let (currentValue:int) =  numberGenerator.Next(1, 10)
-    printfn "Current Value is %d. Will the next number be (h)igher, (l)ower, or the (s)ame?" currentValue
+
     let guessParse x =
         match x with
         | "h" -> 1
@@ -35,8 +40,14 @@ while (playAgain && money > 0) do
         | "s" -> 0
         | a -> 2
 
+    doubleDown <- false
+    playAgain <- false
+    let (currentValue:int) =  numberGenerator.Next(1, currentRange)
+    printfn "Current range is between 1 and %d" currentRange
+    printfn "Current Value is %d. Will the next number be (h)igher, (l)ower, or the (s)ame?" currentValue
+
     let playerGuess = Console.ReadLine() |> guessParse
-    let nextValue = numberGenerator.Next(1, 10)
+    let nextValue = numberGenerator.Next(1, currentRange)
     let evalValue = (nextValue - currentValue) * playerGuess
     printfn "The new number is %d" nextValue
     
@@ -52,10 +63,13 @@ while (playAgain && money > 0) do
             doubleDown <- input |> againParse
             if doubleDown then
                 bet <- bet + bet
-
+                playAgain <- true
+                if currentRange > minRange then
+                    currentRange <- currentRange - 1
             else
                 money <- money + bet
                 bet <- 1
+                currentRange <- maxRange
                 printfn "Current credits: %d" money
                 
         else

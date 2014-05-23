@@ -7,3 +7,5 @@ c:\users\darren.brown\documents\visual studio 2012\Projects\SoYouWannaLearnFPoun
 c:\users\darren.brown\documents\visual studio 2012\Projects\SoYouWannaLearnFPound\SoYouWannaLearnFPound\obj\Debug\SoYouWannaLearnFPound.fsprojResolveAssemblyReference.cache
 c:\users\darren.brown\documents\visual studio 2012\Projects\SoYouWannaLearnFPound\SoYouWannaLearnFPound\obj\Debug\SoYouWannaLearnFPound.exe
 c:\users\darren.brown\documents\visual studio 2012\Projects\SoYouWannaLearnFPound\SoYouWannaLearnFPound\obj\Debug\SoYouWannaLearnFPound.pdb
+C:\Users\Darren.Brown\Documents\Visual Studio 2012\Projects\SoYouWannaLearnFPound\SoYouWannaLearnFPound\bin\Debug\nunit.framework.dll
+C:\Users\Darren.Brown\Documents\Visual Studio 2012\Projects\SoYouWannaLearnFPound\SoYouWannaLearnFPound\bin\Debug\nunit.framework.xml
