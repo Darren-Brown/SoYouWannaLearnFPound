@@ -7,9 +7,10 @@ open System.Text
 open System.Text.RegularExpressions
 open Microsoft.FSharp.Reflection
 
-//let mutable money = 10
+
+
+let startingCredit = 10
 let minBet = 1
-//let mutable playAgain = true
 
 let maxRange = 10
 let minRange = 3
@@ -35,118 +36,76 @@ let guessParse x =
     | "s" | "S" -> 0
     | a -> 2
 
-let rec makeItSo currentRange money bet =
-    let getValidYN errorMessage =
-        let mutable input = Console.ReadLine()
-        while againValid input |> not do
-            printfn errorMessage
-            input <- Console.ReadLine()
+
+let rec getValidYN errorMessage =
+    let input = Console.ReadLine()
+    if againValid input |> not then
+        printfn errorMessage
+        getValidYN errorMessage
+    else
         input |> parseYN
 
-    let getValidGuess errorMessage =
-        let mutable input = Console.ReadLine()
-        while guessParse input = 2 do
-            printfn errorMessage
-            input <- Console.ReadLine()
+let rec getValidGuess errorMessage =
+    let mutable input = Console.ReadLine()
+    if guessParse input = 2 then
+        printfn errorMessage
+        getValidGuess errorMessage
+    else
         input |> guessParse
 
+let getPlayAgain message =
+    printfn message
+    getValidYN "Invalid selection. Would you like to play again (y/n)?"
+
+let adjustRange currentRange =
+    if currentRange <= minRange then
+        currentRange
+    else
+        currentRange - 1
+
+let rec gameLoop currentRange money (bet:int) =
     let (currentValue:int) =  numberGenerator.Next(1, currentRange)
     printfn "Current range is between 1 and %d" currentRange
     printfn "Current Value is %d. Will the next number be (h)igher, (l)ower, or the (s)ame?" currentValue
 
     let playerGuess = getValidGuess "Invalid selection. Please enter h ,  l, or s"
+
     let nextValue = numberGenerator.Next(1, currentRange)
     let evalValue = (nextValue - currentValue) * playerGuess
     printfn "The new number is %d" nextValue
     let winner = evalValue > 0 || evalValue = (nextValue - currentValue)
+
     if winner then
+        //don't care
         printfn "You win! Your current winnings are %d." bet
         printfn "Credits: %d" money
         printfn "Use winnings as bet in next round (y/n)?"
         let doubleDown = getValidYN "Invalid selection. Would you like to use your winnings as the bet in the next round (y/n)?"
         if doubleDown then
-            if currentRange > minRange then
-                makeItSo (currentRange - 1) money (bet + bet)
-            else
-                makeItSo currentRange money (bet + bet)
+            let newBet = bet + bet
+            let newMoney = money
+            let newRange = adjustRange currentRange
+            gameLoop newRange newMoney newBet
         else
-            printfn "Would you like to play again (y/n)?"
-            if getValidYN "Invalid selection. Would you like to play again (y/n)?" then
-                makeItSo maxRange (money + bet) minBet
-    else
-//        money <- money - 1
-//        bet <- 1
-//        currentRange <- maxRange
-        printfn "You lose! Your current credit is %d." money
-        printfn "Would you like to play again (y/n)?"
-        if getValidYN "Invalid selection. Would you like to play again (y/n)?" then
-            makeItSo maxRange (money - minBet) minBet
-    if money > 0 then
-        printfn "Would you like to play again (y/n)?"
-        let playAgain = getValidYN "Invalid selection. Would you like to play again (y/n)?"
-        if playAgain then
-            if winner then
-                makeItSo maxRange (money + bet) minBet
+            let newMoney = money + bet
+            let newBet = minBet
+            let newRange = maxRange
+            if getPlayAgain "Would you like to play again (y/n)?" then
+                gameLoop newRange newMoney newBet
             else
-                makeItSo maxRange (money - minBet) minBet
-               
-makeItSo maxRange 10 1    
+                newMoney
+    else
+        //also don't care
+        let newMoney = money - 1
+        let newRange = maxRange
+        let newBet = minBet
+        printfn "You lose! Your current credit is %d." newMoney
+        if getPlayAgain "Would you like to play again (y/n)?" && newMoney > 0 then
+            gameLoop newRange newMoney newBet
+        else
+            newMoney
 
-//while (playAgain) do
-
-
-//    let getValidYN errorMessage =
-//        let mutable input = Console.ReadLine()
-//        while againValid input |> not do
-//            printfn errorMessage
-//            input <- Console.ReadLine()
-//        input |> parseYN
-//
-//    let getValidGuess errorMessage =
-//        let mutable input = Console.ReadLine()
-//        while guessParse input = 2 do
-//            printfn errorMessage
-//            input <- Console.ReadLine()
-//        input |> guessParse
-//
-//    playAgain <- false
-//    let (currentValue:int) =  numberGenerator.Next(1, currentRange)
-//    printfn "Current range is between 1 and %d" currentRange
-//    printfn "Current Value is %d. Will the next number be (h)igher, (l)ower, or the (s)ame?" currentValue
-//
-//    let playerGuess = getValidGuess "Invalid selection. Please enter h ,  l, or s"
-//    let nextValue = numberGenerator.Next(1, currentRange)
-//    let evalValue = (nextValue - currentValue) * playerGuess
-//    printfn "The new number is %d" nextValue
-//    
-//    if evalValue > 0 || evalValue = (nextValue - currentValue) then
-//        printfn "You win! Your current winnings are %d." bet
-//        printfn "Credits: %d" money
-//        printfn "Use winnings as bet in next round (y/n)?"
-//        let doubleDown = getValidYN "Invalid selection. Would you like to use your winnings as the bet in the next round (y/n)?"
-//        if doubleDown then
-//            bet <- bet + bet
-//            playAgain <- true
-//            if currentRange > minRange then
-//                currentRange <- currentRange - 1
-//        else
-//            money <- money + bet
-//            bet <- 1
-//            currentRange <- maxRange
-//            printfn "Current credits: %d" money          
-//    else
-//        money <- money - 1
-//        bet <- 1
-//        currentRange <- maxRange
-//        printfn "You lose! Your current credit is %d." money
-//    
-//        if money > 0 then
-//            printfn "Would you like to play again (y/n)?"
-//            playAgain <- getValidYN "Invalid selection. Would you like to play again (y/n)?"
-//        else
-//            playAgain <- false   
-//    printfn "Invalid selection. Please enter h ,  l, or s"
-
-printfn "Thanks for playing."    
+let test = gameLoop maxRange startingCredit minBet
+printfn "Thanks for playing! You walked away with %d credits" test 
 printfn "Press any key to continue..."
 Console.ReadKey(true) |> ignore
