@@ -1,0 +1,372 @@
+{
+  "info": {
+    "_postman_id": "1d6ec378-d5a8-f3f6-527b-55f8d7415b94",
+    "name": "SSO",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "_postman_id": "d512a8c8-708e-5f73-9461-61f0ddf2a4ed",
+      "name": "SSO: Me",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{Token}}"
+          }
+        ],
+        "body": {},
+        "url": "https://accountsintegration.iqmetrix.net/v1/me"
+      },
+      "response": []
+    },
+    {
+      "_postman_id": "e8e5ddc5-68b8-8c13-7ef9-cb8780f03f1e",
+      "name": "SSO: Get Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = JSON.parse(responseBody);",
+              "postman.setEnvironmentVariable(\"Token\", data.access_token);",
+              "postman.setGlobalVariable(\"GlobalToken-Int\", data.access_token);",
+              "postman.setGlobalVariable(\"Token\", data.access_token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "grant_type",
+              "value": "password",
+              "type": "text"
+            },
+            {
+              "key": "client_id",
+              "value": "iQmetrixHub",
+              "type": "text"
+            },
+            {
+              "key": "client_secret",
+              "value": "SECRET",
+              "type": "text"
+            },
+            {
+              "key": "username",
+              "value": "joem@iqmetrix.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "Password1",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "https://accountsint.iqmetrix.net/v1/oauth2/token"
+      },
+      "response": []
+    },
+    {
+      "_postman_id": "765d5b53-103a-ee0c-959e-bf61ead7e708",
+      "name": "SSO: Get Service Token-Dev",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = JSON.parse(responseBody);",
+              "postman.setEnvironmentVariable(\"Token\", data.access_token);",
+              "postman.setGlobalVariable(\"GlobalToken-Int\", data.access_token);",
+              "postman.setGlobalVariable(\"Token\", data.access_token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "grant_type",
+              "value": "client_credentials",
+              "type": "text"
+            },
+            {
+              "key": "client_id",
+              "value": "SacsService",
+              "type": "text"
+            },
+            {
+              "key": "client_secret",
+              "value": "d4OP0zPok1O5LY3NeXde89K2",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "https://accountsdev.iqmetrix.net/v1/oauth2/token"
+      },
+      "response": []
+    },
+    {
+      "_postman_id": "0cd07a92-9a42-7614-5f08-25eced8dab04",
+      "name": "SSO: Get Service Token-Int",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = JSON.parse(responseBody);",
+              "postman.setEnvironmentVariable(\"Token\", data.access_token);",
+              "postman.setGlobalVariable(\"GlobalToken-Int\", data.access_token);",
+              "postman.setGlobalVariable(\"Token\", data.access_token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "grant_type",
+              "value": "client_credentials",
+              "type": "text"
+            },
+            {
+              "key": "client_id",
+              "value": "SacsService",
+              "type": "text"
+            },
+            {
+              "key": "client_secret",
+              "value": "d4OP0zPok1O5LY3NeXde89K2",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "https://accountsint.iqmetrix.net/v1/oauth2/token"
+      },
+      "response": []
+    },
+    {
+      "_postman_id": "b60b7a49-b373-af0e-3d62-5c4594896240",
+      "name": "SSO: Get Service Token-RC",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = JSON.parse(responseBody);",
+              "postman.setEnvironmentVariable(\"Token\", data.access_token);",
+              "postman.setGlobalVariable(\"ServiceToken-RC\", data.access_token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "grant_type",
+              "value": "client_credentials",
+              "type": "text"
+            },
+            {
+              "key": "client_id",
+              "value": "VCDSConnectorWebjob",
+              "type": "text"
+            },
+            {
+              "key": "client_secret",
+              "value": "1pwBdSUhLILkOoQ0yNrpgdg4",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "https://accountsrc.iqmetrix.net/v1/oauth2/token"
+      },
+      "response": []
+    },
+    {
+      "_postman_id": "e05df0fd-f86f-5bfe-3f7d-8f05e39de2ce",
+      "name": "SSO: Get Token As VoiceComm-RC",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = JSON.parse(responseBody);",
+              "postman.setEnvironmentVariable(\"VoiceCommToken\", data.access_token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "grant_type",
+              "value": "password",
+              "type": "text"
+            },
+            {
+              "key": "client_id",
+              "value": "VoicecommDropship",
+              "type": "text"
+            },
+            {
+              "key": "client_secret",
+              "value": "pGgw8RrHIqlvAeMzSTc4THyt",
+              "type": "text"
+            },
+            {
+              "key": "username",
+              "value": "iqmetrix@myvoicecomm.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "VoiceComm#99",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "https://accountsrc.iqmetrix.net/v1/oauth2/token"
+      },
+      "response": []
+    },
+    {
+      "_postman_id": "46d9d8af-08af-d0cf-5555-21f8800ac9a4",
+      "name": "SSO: Get Token RC",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = JSON.parse(responseBody);",
+              "postman.setEnvironmentVariable(\"VoiceCommToken\", data.access_token);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "grant_type",
+              "value": "password",
+              "type": "text"
+            },
+            {
+              "key": "client_id",
+              "value": "VoicecommDropship",
+              "type": "text"
+            },
+            {
+              "key": "client_secret",
+              "value": "pGgw8RrHIqlvAeMzSTc4THyt",
+              "type": "text"
+            },
+            {
+              "key": "username",
+              "value": "justink@iqmetrix.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "ob1tDJxSp6",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "https://accountsrc.iqmetrix.net/v1/oauth2/token"
+      },
+      "response": []
+    },
+    {
+      "_postman_id": "07229b02-28d2-20e1-b1e9-312986903f66",
+      "name": "Get Token",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "grant_type",
+              "value": "password",
+              "type": "text"
+            },
+            {
+              "key": "client_id",
+              "value": "iQmetrixHub",
+              "type": "text"
+            },
+            {
+              "key": "client_secret",
+              "value": "SECRET",
+              "type": "text"
+            },
+            {
+              "key": "username",
+              "value": "joem@iqmetrix.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "Password1",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "https://accountsint.iqmetrix.net/v1/oauth2/token"
+      },
+      "response": []
+    },
+    {
+      "_postman_id": "d891f12e-a5ae-493f-9b81-67fed9bb1060",
+      "name": "Test new request",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": "sadfsahgggdsagfsfsfa"
+      },
+      "response": []
+    }
+  ]
+}
